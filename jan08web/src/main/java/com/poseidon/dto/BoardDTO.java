@@ -2,9 +2,15 @@ package com.poseidon.dto;
 
 // 여기는 get, set만 만들어주면 볼일 없음
 public class BoardDTO {
-	private int no, count, comment;
+	private int no, count, comment,del;
 	private String title, content, write, date, mid, ip, ipMasking;
 	
+	public int getDel() {
+		return del;
+	}
+	public void setDel(int del) {
+		this.del = del;
+	}
 	
 	public String getIp() {
 		return ip;

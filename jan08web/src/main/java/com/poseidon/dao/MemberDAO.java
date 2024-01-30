@@ -15,11 +15,12 @@ import com.poseidon.dto.MemberDTO;
 public class MemberDAO extends AbstractDAO {
 	// close, DB 하나의 클래스로 만들어서 상속한거
 
+	// 로그인하는 메소드
 	public MemberDTO login(MemberDTO dto) {
 		Connection con = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT count(*) as count, mname FROM member WHERE mid=? AND mpw=?";
+		String sql = "SELECT count(*) as count, mname FROM member WHERE mid=? AND mpw=? AND mgrade > 4";
 
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -87,7 +88,7 @@ public class MemberDAO extends AbstractDAO {
 
 		return result;
 	}
-
+	
 	public int join(MemberDTO dto) {
 		int result = 0;
 
@@ -173,4 +174,5 @@ public class MemberDAO extends AbstractDAO {
 
 		return data;
 	}
+	
 }

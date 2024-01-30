@@ -20,9 +20,8 @@ public class BoardDAO extends AbstractDAO {
 		// db정보
 		// DBConnection db = DBConnection.getInstance();
 		// new는 못쓰고 DBConnection 안에 있는 getInstance 쓸수있어
-		// conn 객체
+		// con 객체
 		Connection con = db.getConnection();
-		// pstmt
 		PreparedStatement pstmt = null;
 		// statement 쓰면 노출이 되는데 그거 방지한게 위에 있는 prepareStatement
 

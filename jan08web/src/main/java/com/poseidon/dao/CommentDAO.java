@@ -37,7 +37,7 @@ public class CommentDAO extends AbstractDAO {
 	public int commentDel(CommentDTO dto) {
 		Connection con = db.getConnection();
 		PreparedStatement pstmt = null;
-		String sql = "UPDATE comment SET cdel='0' "
+		String sql = "UPDATE comment SET cdel=? "
 				+ "WHERE cno=? AND mno=(SELECT mno FROM member WHERE mid=?)";
 		int result = 0;
 		
@@ -56,4 +56,24 @@ public class CommentDAO extends AbstractDAO {
 		return result;
 	}
 
+	
+	public int commentUpdate(CommentDTO dto) {
+		Connection con = db.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE comment SET ccomment=? WHERE cno=?";;
+		int result = 0;
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getCcomment());
+			pstmt.setInt(2, dto.getCno());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(null, pstmt, con);
+		}		
+		return result;
+	}
+	
 }

@@ -5,6 +5,7 @@
 					<li onclick="url('./board')">게시판</li>
 					<li onclick="url('./qna')">문의게시판</li>
 					<li onclick="url('./notice')">공지사항</li>
+					<li onclick="url('./cafe')">커피먹자</li>
 					<li onclick="url('./bootstrap')">부트스트랩</li>
 					<li onclick="url('./info')">info</li>
 					<li onclick="url('./team')">팀</li><c:choose><c:when test="${sessionScope.mname eq null}">

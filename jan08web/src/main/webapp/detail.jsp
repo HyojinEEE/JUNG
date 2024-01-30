@@ -24,16 +24,65 @@ $(document).ready(function(){
 		if (confirm('수정하시겠습니까?')) {
 			// 필요한 값 cno잡기  / 수정한 내용 + 로그인 ===== 서블릿에서 정리
 			let cno = $(this).siblings(".cno").val();
-			let text = $(this).parents(".chead").next().text();
-			// 여기서는 chead가 주인공의 다음 형제를 뽑아서 텍스트를 뽑아라
+			let comment = $(this).parents(".chead").next();  //변경해야해
+			// 여기서는 chead가 주인공으로, 형제를 뽑아서 텍스트를 뽑아라
+			$(this).prev().hide();
+			$(this).hide();
+			comment.css('height','110');
+			comment.css('padding-top','10px');
+			comment.css('backgroundColor','#c1c1c1');
+			let commentChange = comment.html().replaceAll("<br>", "\r\n");
+			//alert(cno + " : " + text.html()); 같은 말 let text = $(this).parents(".chead").next();
+			let recommentBox = '<div class="recommentBox">';
+			recommentBox += '<textarea class="commentcontent" name="comment">' + (comment.html().replaceAll("<br>", "\r\n")) + '</textarea>';
+			recommentBox += '<input type="hidden" name="cno" value="' + cno + '">';
+			recommentBox += '<button class="comment-btn">댓글 수정</button>';
+			recommentBox += '</div>';
+			comment.html(recommentBox);
 			
-			alert(cno + " : " + comment);
+			
+			
+			
+			
+			
+			
 		}
 	});
 	
-	
-	
-	
+	//2024-01-25
+	// 댓글수정 comment-btn버튼 눌렀을 때 .cno 값, .commentcontent 값 가져오는 명령 만들기
+	$(document).on('click',".comment-btn", function (){
+		let cno = $(this).prev().val();
+		let recomment = $('.commentcontent').val();
+		let comment = $(this).parents(".ccomment");//댓글 위치
+		
+		$.ajax({
+			url : './recomment',
+			type : 'post',
+			dataType : 'text',
+			data : {'cno': cno, 'comment': recomment},
+			success : function(result){
+				if (result == 1) {
+					// 수정된 데이터를 화면에 보여주면 되요.
+					$(this).parent(".recommentBox").remove();
+					comment.css('backgroundColor','#ffffff');
+					comment.css('min-height', '100px')
+					comment.css('height', 'auto')
+					comment.html(recomment.replace(/(?:\r\n|\r|\n)/g, '<br>'));
+					$(".commentDelete").show();
+					$(".commentEdit").show();
+				} else {
+					alert("문제가 발생했습니다. 화면을 갱신합니다.");
+					// 실패 화면 재로드.
+					// location.href='./detail?page=${param.page}&no=${param.no}'; 아래꺼랑 같은거
+					location.href='./detail?page=${param.page}&no=${detail.no}';
+				}
+			},
+			error : function(error){
+				alert('문제가 발생했습니다. : ' + error);
+			}
+		});
+	});
 	
 	
 	
@@ -109,6 +158,11 @@ $(document).ready(function(){
 				
 			}
 		});
+		   
+			 //댓글쓰기 창에 쓸 수 있는 글자 표시해주고 넘어가면 입력 불가로 바꾸기
+		    //id="commentcontent"
+		    //id="comment-btn"
+		
 	});
 
 </script>
@@ -168,7 +222,7 @@ $(document).ready(function(){
 											<img alt="수정" src="./image/edit.png" class="commentEdit">
 										</c:if>
 									</div>
-									<div class="cdate">${co.cip}/ ${co.cdate }</div>
+									<div class="cdate">${co.cip}/${co.cdate }</div>
 								</div>
 								<div class="ccomment">${co.ccomment }</div>
 							</div>
@@ -194,9 +248,9 @@ $(document).ready(function(){
 		}
 			
 		
-		})
 		
-		}
+		
+		
 		
 	</script>
 </body>

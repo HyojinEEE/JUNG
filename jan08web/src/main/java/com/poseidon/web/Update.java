@@ -79,7 +79,10 @@ public class Update extends HttpServlet {
 
 			if (result == 1) {
 				response.sendRedirect("./detail?no=" + request.getParameter("no"));
-
+  
+				
+				
+				 
 			} else {
 				// error
 				response.sendRedirect("./error.jsp");

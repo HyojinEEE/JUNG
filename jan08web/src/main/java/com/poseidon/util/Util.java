@@ -10,8 +10,8 @@ public class Util {
 	// A59 -> 59 로 나오게 해줘
 	// 5A9 -> 59
 	// 이 메소드는 문자 제외하고 숫자만 나오게 해주라는거임
-	
-	//방법1
+
+	// 방법1
 	public static int str2Int(String str) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
@@ -27,14 +27,13 @@ public class Util {
 		return number;
 
 	}
+
 	// 방법2
 	public static int str2Int2(String str) {
-	    String numberOnly = str.replaceAll("[^0-9]", "");
-	      return Integer.parseInt(numberOnly);
+		String numberOnly = str.replaceAll("[^0-9]", "");
+		return Integer.parseInt(numberOnly);
 	}
-		
-		
-		
+
 	public static boolean intCheck(String str) {
 		try {
 			// 예외가 발생될 것 같을 문장을 여기다 넣어준거야
@@ -49,8 +48,6 @@ public class Util {
 
 		}
 	}
-	
-	
 
 	public static boolean intCheck2(String str) {
 		boolean result = true;
@@ -64,55 +61,56 @@ public class Util {
 		}
 		return result;
 	}
-	
+
 	// ip 가져오기
 	public static String getIP(HttpServletRequest request) {
-		
+
 		String ip = request.getHeader("X-FORWARDED-FOR");
-	
-		   if(ip == null) {
-		         ip = request.getHeader("Proxy-Client-IP");
-		      }
-		      if(ip == null) {
-		         ip = request.getHeader("WL-Proxy-Client-IP");   
-		      }
-		      if(ip == null) {
-		         ip = request.getHeader("HTTP_CLIENT_IP");
-		      }
-		      if(ip == null) {
-		         ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		      }
-		      if(ip == null) {
-		         ip = request.getRemoteAddr();
-		      }
-		      return ip;
-		   }
-	
-	// HTML태그를 특수기호로 변경하기   < &lt 를 바꾸기     > &gt를 바꾸기
+
+		if (ip == null) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
+
+	// HTML태그를 특수기호로 변경하기 
 	public static String removeTag(String str) {
 		str = str.replace("<", "&lt");
 		str = str.replace(">", "&gt");
-		
+
 		return str;
-		
+
 	}
 
-		// 엔터키 처리 (br로 바꿔준다) - Comment.java랑 같이 봐
-	  public static String addBR(String str) {
-	      return str.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
-	   }
-	  
-	  // 아이피 중간을 ♡로 가리기 172.30.1.27 -> 172.♡.1.63
-	   public static String ipMasking(String ip) {
- 
-		         StringBuffer sb = new StringBuffer(); //멀티스레드 환경에서도 동기화 지원
-		         sb.append(ip.substring(0, ip.indexOf('.')));
-		         sb.append(".😒.");
-		         sb.append(ip.substring(ip.indexOf('.', 6) +1));
-		         return sb.toString();
-		      } else {
-		         return ip;         
-		      }
-		      
-		   }
-	  }
+	// 엔터키 처리 (br로 바꿔준다) - Comment.java랑 같이 봐
+	public static String addBR(String str) {
+		return str.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
+	}
+
+	// 아이피 중간을 ♡로 가리기 172.30.1.27 -> 172.♡.1.63
+	public static String ipMasking(String ip) {
+		if (ip.indexOf('.') != -1) {
+			StringBuffer sb = new StringBuffer(); // 멀티스레드 환경에서도 동기화 지원
+			sb.append(ip.substring(0, ip.indexOf('.')));
+			sb.append(".😒.");
+			sb.append(ip.substring(ip.indexOf('.', 6) + 1));
+			return sb.toString();
+		} else {
+			return ip;
+		}
+
+	}
+
+}
